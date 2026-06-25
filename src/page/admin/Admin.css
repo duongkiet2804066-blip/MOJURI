@@ -1,22 +1,23 @@
-/* Admin Dashboard Style */
+/* Admin Dashboard Style - Cohesive with MoJuri Brand */
 .admin-container {
   display: flex;
   min-height: 100vh;
-  background-color: #f4f5f7;
-  font-family: 'Inter', 'Segoe UI', Roboto, sans-serif;
-  color: #3f4254;
+  background-color: #fbf9f6; /* Warm off-white/beige identical to shop theme */
+  font-family: 'Lato', 'Segoe UI', Roboto, sans-serif;
+  color: #222222;
 }
 
 /* Sidebar Styling */
 .admin-sidebar {
   width: 260px;
-  background-color: #1e1e2d;
-  color: #a2a3b7;
+  background-color: #111111; /* Clean charcoal black matching shop header/footer */
+  color: #a8a29a; /* Soft greyish brown */
   display: flex;
   flex-direction: column;
   transition: all 0.3s ease;
   flex-shrink: 0;
   z-index: 100;
+  border-right: 1px solid #222222;
 }
 
 .admin-sidebar-brand {
@@ -25,7 +26,7 @@
   align-items: center;
   justify-content: space-between;
   padding: 0 25px;
-  border-bottom: 1px solid #2c2c3e;
+  border-bottom: 1px solid #222222;
 }
 
 .admin-brand-link {
@@ -38,7 +39,7 @@
 }
 
 .admin-brand-link span {
-  color: #bfa37a;
+  color: #bfa37a; /* MoJuri gold brand color */
 }
 
 .admin-sidebar-menu {
@@ -57,21 +58,21 @@
   display: flex;
   align-items: center;
   padding: 12px 15px;
-  color: #a2a3b7;
+  color: #a8a29a;
   text-decoration: none;
-  border-radius: 6px;
+  border-radius: 4px;
   font-size: 14px;
   font-weight: 500;
   transition: all 0.2s ease;
 }
 
 .admin-menu-link:hover {
-  background-color: rgba(255, 255, 255, 0.05);
-  color: #ffffff;
+  background-color: rgba(191, 163, 122, 0.08); /* Transparent gold background */
+  color: #bfa37a;
 }
 
 .admin-menu-link.active {
-  background-color: #bfa37a;
+  background-color: #bfa37a; /* MoJuri active gold button */
   color: #ffffff;
 }
 
@@ -88,25 +89,26 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  min-width: 0; /* Prevents flex children from breaking parent layout */
+  min-width: 0;
 }
 
 /* Topbar Styling */
 .admin-topbar {
   height: 70px;
   background-color: #ffffff;
-  box-shadow: 0 1px 15px rgba(0,0,0,0.04);
+  box-shadow: 0 1px 15px rgba(191, 163, 122, 0.05);
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 0 30px;
-  border-bottom: 1px solid #eff2f5;
+  border-bottom: 1px solid #f3eee7; /* Warm light beige border */
 }
 
 .admin-topbar-title {
-  font-size: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 24px;
   font-weight: 600;
-  color: #181c32;
+  color: #111111;
   margin: 0;
 }
 
@@ -117,22 +119,26 @@
 }
 
 .admin-btn-shop {
-  color: #7e8299;
+  color: #111111;
   text-decoration: none;
-  font-size: 14px;
-  display: flex;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  padding: 8px 12px;
+  padding: 8px 15px;
   border-radius: 4px;
-  border: 1px solid #e4e6ef;
+  border: 1px solid rgba(17, 17, 17, 0.15);
   background-color: #ffffff;
   transition: all 0.2s;
 }
 
 .admin-btn-shop:hover {
-  background-color: #f5f8fa;
-  color: #181c32;
+  background-color: #111111;
+  color: #ffffff;
+  border-color: #111111;
 }
 
 .admin-user-profile {
@@ -145,7 +151,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #e8a978;
+  background-color: #bfa37a; /* Brand gold avatar background */
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -157,7 +163,7 @@
 .admin-user-name {
   font-size: 14px;
   font-weight: 600;
-  color: #3f4254;
+  color: #111111;
 }
 
 /* Page Content View */
@@ -177,10 +183,10 @@
 
 .admin-stat-card {
   background-color: #ffffff;
-  border-radius: 12px;
+  border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-  border: 1px solid #eff2f5;
+  box-shadow: 0 4px 20px rgba(191, 163, 122, 0.03);
+  border: 1px solid #f3eee7;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -188,32 +194,33 @@
 
 .admin-stat-info h4 {
   margin: 0 0 8px 0;
-  font-size: 13px;
-  color: #a1a5b7;
+  font-size: 12px;
+  color: #8a857c;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
-  font-weight: 600;
+  letter-spacing: 1px;
+  font-weight: 700;
 }
 
 .admin-stat-value {
-  font-size: 26px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 30px;
   font-weight: 700;
-  color: #181c32;
+  color: #111111;
   margin: 0;
 }
 
 .admin-stat-icon-wrap {
   width: 50px;
   height: 50px;
-  border-radius: 12px;
+  border-radius: 8px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 20px;
 }
 
-/* Card variants */
-.stat-primary { background-color: #f1faff; color: #009ef7; }
+/* Card variants with brand color tones */
+.stat-primary { background-color: rgba(191, 163, 122, 0.1); color: #bfa37a; }
 .stat-success { background-color: #e8fff3; color: #50cd89; }
 .stat-warning { background-color: #fff8dd; color: #ffc700; }
 .stat-danger  { background-color: #fff5f8; color: #f1416c; }
@@ -221,15 +228,15 @@
 /* Admin Panels and Tables */
 .admin-card {
   background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.02);
-  border: 1px solid #eff2f5;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px rgba(191, 163, 122, 0.03);
+  border: 1px solid #f3eee7;
   margin-bottom: 30px;
 }
 
 .admin-card-header {
   padding: 20px 24px;
-  border-bottom: 1px solid #eff2f5;
+  border-bottom: 1px solid #f3eee7;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -238,10 +245,11 @@
 }
 
 .admin-card-title {
-  margin: 0;
-  font-size: 18px;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
   font-weight: 600;
-  color: #181c32;
+  color: #111111;
+  margin: 0;
 }
 
 .admin-card-body {
@@ -262,24 +270,24 @@
 
 .admin-table th {
   padding: 14px 16px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
   text-transform: uppercase;
-  color: #a1a5b7;
-  border-bottom: 1px solid #eff2f5;
-  letter-spacing: 0.5px;
+  color: #8a857c;
+  border-bottom: 1px solid #f3eee7;
+  letter-spacing: 1px;
 }
 
 .admin-table td {
   padding: 16px;
   font-size: 14px;
-  border-bottom: 1px solid #eff2f5;
-  color: #3f4254;
+  border-bottom: 1px solid #f3eee7;
+  color: #222222;
   vertical-align: middle;
 }
 
 .admin-table tbody tr:hover {
-  background-color: #f9f9fc;
+  background-color: #fcfbfa; /* Warm row hover background */
 }
 
 /* Badges */
@@ -288,14 +296,16 @@
   align-items: center;
   padding: 5px 10px;
   border-radius: 4px;
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
 .badge-success { background-color: #e8fff3; color: #50cd89; }
 .badge-warning { background-color: #fff8dd; color: #ffc700; }
 .badge-danger  { background-color: #fff5f8; color: #f1416c; }
-.badge-info    { background-color: #eeeaec; color: #bfa37a; }
+.badge-info    { background-color: #fdf3ec; color: #bfa37a; } /* Brand info badge */
 
 /* Buttons */
 .admin-btn {
@@ -303,37 +313,38 @@
   align-items: center;
   gap: 6px;
   padding: 10px 20px;
-  font-size: 14px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 4px;
   border: none;
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
 .admin-btn-primary {
-  background-color: #bfa37a;
+  background-color: #bfa37a; /* Brand Gold */
   color: #ffffff;
 }
 
 .admin-btn-primary:hover {
-  background-color: #ab906a;
+  background-color: #a8906c;
 }
 
 .admin-btn-secondary {
-  background-color: #f5f8fa;
-  color: #7e8299;
+  background-color: #fdf3ec; /* Warm light beige matching button background */
+  color: #bfa37a;
 }
 
 .admin-btn-secondary:hover {
-  background-color: #e4e6ef;
-  color: #3f4254;
+  background-color: #f9e7dc;
+  color: #a8906c;
 }
 
 .admin-btn-sm {
   padding: 6px 12px;
-  font-size: 12px;
-  border-radius: 4px;
+  font-size: 11px;
 }
 
 /* Forms */
@@ -343,9 +354,11 @@
 
 .admin-form-label {
   display: block;
-  font-size: 14px;
-  font-weight: 600;
-  color: #3f4254;
+  font-size: 13px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  color: #8a857c;
   margin-bottom: 8px;
 }
 
@@ -353,16 +366,16 @@
   width: 100%;
   padding: 10px 14px;
   font-size: 14px;
-  border: 1px solid #e4e6ef;
-  border-radius: 6px;
-  color: #3f4254;
+  border: 1px solid #f3eee7;
+  border-radius: 4px;
+  color: #222222;
   outline: none;
   transition: border-color 0.2s;
   background-color: #ffffff;
 }
 
 .admin-form-control:focus {
-  border-color: #bfa37a;
+  border-color: #bfa37a; /* Brand focus ring */
 }
 
 /* Responsive sidebar */
