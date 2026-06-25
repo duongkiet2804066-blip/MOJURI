@@ -39,7 +39,7 @@
 }
 
 .admin-brand-link span {
-  color: #bfa37a; /* MoJuri gold brand color */
+  color: #cb8161; /* MoJuri gold brand color */
 }
 
 .admin-sidebar-menu {
@@ -67,12 +67,12 @@
 }
 
 .admin-menu-link:hover {
-  background-color: rgba(191, 163, 122, 0.08); /* Transparent gold background */
-  color: #bfa37a;
+  background-color: rgba(203, 129, 97, 0.08); /* Transparent gold background */
+  color: #cb8161;
 }
 
 .admin-menu-link.active {
-  background-color: #bfa37a; /* MoJuri active gold button */
+  background-color: #cb8161; /* MoJuri active gold button */
   color: #ffffff;
 }
 
@@ -151,7 +151,7 @@
   width: 36px;
   height: 36px;
   border-radius: 50%;
-  background-color: #bfa37a; /* Brand gold avatar background */
+  background-color: #cb8161; /* Brand gold avatar background */
   color: #ffffff;
   display: flex;
   align-items: center;
@@ -185,7 +185,7 @@
   background-color: #ffffff;
   border-radius: 8px;
   padding: 24px;
-  box-shadow: 0 4px 20px rgba(191, 163, 122, 0.03);
+  box-shadow: 0 4px 20px rgba(203, 129, 97, 0.03);
   border: 1px solid #f3eee7;
   display: flex;
   align-items: center;
@@ -202,8 +202,8 @@
 }
 
 .admin-stat-value {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: 30px;
+  font-family: 'Lato', 'Segoe UI', Roboto, sans-serif;
+  font-size: 28px; /* Slightly adjusted size for better sans-serif layout */
   font-weight: 700;
   color: #111111;
   margin: 0;
@@ -220,7 +220,7 @@
 }
 
 /* Card variants with brand color tones */
-.stat-primary { background-color: rgba(191, 163, 122, 0.1); color: #bfa37a; }
+.stat-primary { background-color: rgba(203, 129, 97, 0.1); color: #cb8161; }
 .stat-success { background-color: #e8fff3; color: #50cd89; }
 .stat-warning { background-color: #fff8dd; color: #ffc700; }
 .stat-danger  { background-color: #fff5f8; color: #f1416c; }
@@ -229,7 +229,7 @@
 .admin-card {
   background-color: #ffffff;
   border-radius: 8px;
-  box-shadow: 0 4px 20px rgba(191, 163, 122, 0.03);
+  box-shadow: 0 4px 20px rgba(203, 129, 97, 0.03);
   border: 1px solid #f3eee7;
   margin-bottom: 30px;
 }
@@ -305,7 +305,7 @@
 .badge-success { background-color: #e8fff3; color: #50cd89; }
 .badge-warning { background-color: #fff8dd; color: #ffc700; }
 .badge-danger  { background-color: #fff5f8; color: #f1416c; }
-.badge-info    { background-color: #fdf3ec; color: #bfa37a; } /* Brand info badge */
+.badge-info    { background-color: #fdf3ec; color: #cb8161; } /* Brand info badge */
 
 /* Buttons */
 .admin-btn {
@@ -324,22 +324,22 @@
 }
 
 .admin-btn-primary {
-  background-color: #bfa37a; /* Brand Gold */
+  background-color: #cb8161; /* Brand Gold */
   color: #ffffff;
 }
 
 .admin-btn-primary:hover {
-  background-color: #a8906c;
+  background-color: #b67457;
 }
 
 .admin-btn-secondary {
   background-color: #fdf3ec; /* Warm light beige matching button background */
-  color: #bfa37a;
+  color: #cb8161;
 }
 
 .admin-btn-secondary:hover {
   background-color: #f9e7dc;
-  color: #a8906c;
+  color: #b67457;
 }
 
 .admin-btn-sm {
@@ -375,7 +375,7 @@
 }
 
 .admin-form-control:focus {
-  border-color: #bfa37a; /* Brand focus ring */
+  border-color: #cb8161; /* Brand focus ring */
 }
 
 /* Responsive sidebar */

@@ -6,6 +6,16 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface Order {
+  id: string;
+  customer: string;
+  email: string;
+  date: string;
+  payment: string;
+  status: "Completed" | "Pending" | "Processing" | "Cancelled";
+  total: number;
+}
+
 interface ShopContextType {
   products: Product[];
   cartItems: CartItem[];
@@ -40,12 +50,34 @@ interface ShopContextType {
   // Search filter
   searchQuery: string;
   setSearchQuery: (query: string) => void;
+
+  // Product management
+  addProduct: (product: Product) => void;
+  updateProduct: (product: Product) => void;
+  deleteProduct: (productId: number) => void;
+
+  // Order management
+  orders: Order[];
+  placeOrder: (order: { customer: string; email: string; payment: string; total: number }) => void;
+  updateOrderStatus: (id: string, status: Order['status']) => void;
 }
+
+const INITIAL_ORDERS: Order[] = [
+  { id: "ORD-8594", customer: "John Doe", email: "john@example.com", date: "June 25, 2026", payment: "Paid via Credit Card", status: "Completed", total: 100.00 },
+  { id: "ORD-8593", customer: "Jane Smith", email: "jane@example.com", date: "June 24, 2026", payment: "Unpaid (Bank Transfer)", status: "Pending", total: 200.00 },
+  { id: "ORD-8592", customer: "Michael Brown", email: "michael@example.com", date: "June 24, 2026", payment: "Paid via PayPal", status: "Completed", total: 90.00 },
+  { id: "ORD-8591", customer: "Emily Davis", email: "emily@example.com", date: "June 23, 2026", payment: "Refunded", status: "Cancelled", total: 180.00 },
+  { id: "ORD-8590", customer: "William Wilson", email: "william@example.com", date: "June 22, 2026", payment: "Paid via Stripe", status: "Completed", total: 300.00 },
+  { id: "ORD-8589", customer: "Sarah Jenkins", email: "sarah@example.com", date: "June 20, 2026", payment: "Processing", status: "Processing", total: 120.00 }
+];
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
 
 export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const [products] = useState<Product[]>(PRODUCTS);
+  const [products, setProducts] = useState<Product[]>(() => {
+    const saved = localStorage.getItem('mojuri_products');
+    return saved ? JSON.parse(saved) : PRODUCTS;
+  });
   const [cartItems, setCartItems] = useState<CartItem[]>(() => {
     const saved = localStorage.getItem('mojuri_cart');
     return saved ? JSON.parse(saved) : [];
@@ -57,6 +89,10 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [compareItems, setCompareItems] = useState<Product[]>(() => {
     const saved = localStorage.getItem('mojuri_compare');
     return saved ? JSON.parse(saved) : [];
+  });
+  const [orders, setOrders] = useState<Order[]>(() => {
+    const saved = localStorage.getItem('mojuri_orders');
+    return saved ? JSON.parse(saved) : INITIAL_ORDERS;
   });
 
   // Modal open states
@@ -70,6 +106,14 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Search query
   const [searchQuery, setSearchQuery] = useState('');
+
+  useEffect(() => {
+    localStorage.setItem('mojuri_products', JSON.stringify(products));
+  }, [products]);
+
+  useEffect(() => {
+    localStorage.setItem('mojuri_orders', JSON.stringify(orders));
+  }, [orders]);
 
   useEffect(() => {
     localStorage.setItem('mojuri_cart', JSON.stringify(cartItems));
@@ -154,13 +198,63 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     return compareItems.some(item => item.id === productId);
   };
 
+  // Product management actions
+  const addProduct = (product: Product) => {
+    setProducts(prev => [product, ...prev]);
+  };
+
+  const updateProduct = (updatedProduct: Product) => {
+    setProducts(prev => prev.map(p => p.id === updatedProduct.id ? updatedProduct : p));
+  };
+
+  const deleteProduct = (productId: number) => {
+    setProducts(prev => prev.filter(p => p.id !== productId));
+    setCartItems(prev => prev.filter(item => item.product.id !== productId));
+    setWishlistItems(prev => prev.filter(item => item.id !== productId));
+    setCompareItems(prev => prev.filter(item => item.id !== productId));
+  };
+
+  // Dynamically resolve items using current product details
+  const resolvedCartItems = cartItems
+    .map(item => {
+      const latestProduct = products.find(p => p.id === item.product.id);
+      return latestProduct ? { ...item, product: latestProduct } : null;
+    })
+    .filter((item): item is CartItem => item !== null);
+
+  const resolvedWishlistItems = wishlistItems
+    .map(item => products.find(p => p.id === item.id))
+    .filter((item): item is Product => item !== undefined);
+
+  const resolvedCompareItems = compareItems
+    .map(item => products.find(p => p.id === item.id))
+    .filter((item): item is Product => item !== undefined);
+
+  // Order actions
+  const placeOrder = (orderData: { customer: string; email: string; payment: string; total: number }) => {
+    const newOrder: Order = {
+      id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
+      customer: orderData.customer,
+      email: orderData.email,
+      date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
+      payment: orderData.payment,
+      status: "Pending",
+      total: orderData.total
+    };
+    setOrders(prev => [newOrder, ...prev]);
+  };
+
+  const updateOrderStatus = (id: string, newStatus: Order['status']) => {
+    setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
+  };
+
   return (
     <ShopContext.Provider
       value={{
         products,
-        cartItems,
-        wishlistItems,
-        compareItems,
+        cartItems: resolvedCartItems,
+        wishlistItems: resolvedWishlistItems,
+        compareItems: resolvedCompareItems,
         addToCart,
         removeFromCart,
         updateCartQty,
@@ -170,6 +264,12 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         addToCompare,
         removeFromCompare,
         isInCompare,
+        addProduct,
+        updateProduct,
+        deleteProduct,
+        orders,
+        placeOrder,
+        updateOrderStatus,
         isCartOpen,
         setIsCartOpen,
         isSearchOpen,

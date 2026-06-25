@@ -153,7 +153,7 @@ const AdminBanners: React.FC = () => {
                       </td>
                       <td style={{ fontWeight: 600, color: "#181c32" }}>{b.title}</td>
                       <td>
-                        <span className="admin-badge badge-info" style={{ backgroundColor: "#eae6e8", color: "#bfa37a" }}>{b.position}</span>
+                        <span className="admin-badge badge-info" style={{ backgroundColor: "#eae6e8", color: "#cb8161" }}>{b.position}</span>
                       </td>
                       <td style={{ fontFamily: "monospace" }}>{b.link}</td>
                       <td>

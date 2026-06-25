@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
 
 const Checkout: React.FC = () => {
-  const { cartItems, clearCart } = useShop();
+  const { cartItems, clearCart, placeOrder } = useShop();
 
   const [billingInfo, setBillingInfo] = useState({
     firstName: "",
@@ -30,6 +30,17 @@ const Checkout: React.FC = () => {
       alert("Please fill in all required billing information.");
       return;
     }
+
+    const customerName = `${billingInfo.firstName} ${billingInfo.lastName}`;
+    const paymentLabel = paymentMethod === "bank" ? "Direct Bank Transfer" : paymentMethod === "paypal" ? "PayPal" : "Cash on Delivery (COD)";
+    
+    placeOrder({
+      customer: customerName,
+      email: billingInfo.email,
+      payment: paymentLabel,
+      total: grandTotal
+    });
+
     setOrderPlaced(true);
     clearCart();
   };
@@ -37,7 +48,7 @@ const Checkout: React.FC = () => {
   if (orderPlaced) {
     return (
       <div style={{ padding: "100px 0", textAlign: "center", maxWidth: "600px", margin: "0 auto" }}>
-        <div style={{ fontSize: "70px", color: "#bfa37a", marginBottom: "20px" }}>✓</div>
+        <div style={{ fontSize: "70px", color: "#cb8161", marginBottom: "20px" }}>✓</div>
         <h2 style={{ fontFamily: "Cormorant Garamond", fontSize: "40px", fontWeight: 700 }}>Thank You for Your Order!</h2>
         <p style={{ color: "#666", marginTop: "15px", fontSize: "16px", lineHeight: "1.6" }}>
           Your order has been placed successfully. We have sent a confirmation email containing details of your order.
@@ -45,7 +56,7 @@ const Checkout: React.FC = () => {
         <Link 
           to="/shop" 
           className="button"
-          style={{ background: "#bfa37a", color: "#fff", display: "inline-block", padding: "12px 30px", marginTop: "30px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
+          style={{ background: "#cb8161", color: "#fff", display: "inline-block", padding: "12px 30px", marginTop: "30px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
         >
           Continue Shopping
         </Link>
@@ -234,7 +245,7 @@ const Checkout: React.FC = () => {
 
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px", fontSize: "20px", fontWeight: "bold", borderTop: "1px solid #eee", paddingTop: "20px" }}>
                         <span>Total</span>
-                        <span style={{ color: "#bfa37a" }}>${grandTotal.toFixed(2)}</span>
+                        <span style={{ color: "#cb8161" }}>${grandTotal.toFixed(2)}</span>
                       </div>
 
                       {/* Payment Methods */}
@@ -293,7 +304,7 @@ const Checkout: React.FC = () => {
 
                       <button 
                         type="submit"
-                        style={{ width: "100%", background: "#bfa37a", color: "#fff", border: "none", padding: "15px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer", letterSpacing: "1px" }}
+                        style={{ width: "100%", background: "#cb8161", color: "#fff", border: "none", padding: "15px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer", letterSpacing: "1px" }}
                       >
                         Place Order
                       </button>

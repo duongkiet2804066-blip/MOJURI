@@ -95,7 +95,7 @@ const MyAccount: React.FC = () => {
                       <label style={{ cursor: "pointer", display: "flex", alignItems: "center", gap: "5px" }}>
                         <input type="checkbox" /> Remember me
                       </label>
-                      <a href="#" onClick={(e) => e.preventDefault()} style={{ color: "#bfa37a", fontSize: "14px" }}>Lost your password?</a>
+                      <a href="#" onClick={(e) => e.preventDefault()} style={{ color: "#cb8161", fontSize: "14px" }}>Lost your password?</a>
                     </div>
 
                     <button 
@@ -137,7 +137,7 @@ const MyAccount: React.FC = () => {
 
                     <button 
                       type="submit" 
-                      style={{ width: "100%", background: "#bfa37a", color: "#fff", border: "none", padding: "12px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}
+                      style={{ width: "100%", background: "#cb8161", color: "#fff", border: "none", padding: "12px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}
                     >
                       Register
                     </button>
@@ -165,7 +165,7 @@ const MyAccount: React.FC = () => {
                           cursor: "pointer",
                           fontWeight: activeDashboardTab === tab.key ? "bold" : "normal",
                           background: activeDashboardTab === tab.key ? "#f9f9f9" : "#fff",
-                          color: activeDashboardTab === tab.key ? "#bfa37a" : "#111"
+                          color: activeDashboardTab === tab.key ? "#cb8161" : "#111"
                         }}
                       >
                         {tab.label}
@@ -187,7 +187,7 @@ const MyAccount: React.FC = () => {
                     <div>
                       <h2 style={{ fontFamily: "Cormorant Garamond", fontSize: "36px", marginBottom: "20px" }}>Hello, {username}!</h2>
                       <p style={{ lineHeight: "1.7", color: "#666" }}>
-                        From your account dashboard you can easily view your <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("orders"); }} style={{ color: "#bfa37a" }}>recent orders</a>, manage your <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("addresses"); }} style={{ color: "#bfa37a" }}>shipping and billing addresses</a>, and <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("details"); }} style={{ color: "#bfa37a" }}>edit your password and profile details</a>.
+                        From your account dashboard you can easily view your <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("orders"); }} style={{ color: "#cb8161" }}>recent orders</a>, manage your <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("addresses"); }} style={{ color: "#cb8161" }}>shipping and billing addresses</a>, and <a href="#" onClick={(e) => { e.preventDefault(); setActiveDashboardTab("details"); }} style={{ color: "#cb8161" }}>edit your password and profile details</a>.
                       </p>
                     </div>
                   )}
@@ -293,7 +293,7 @@ const MyAccount: React.FC = () => {
                           <input type="password" style={{ width: "100%", padding: "10px", border: "1px solid #ccc", borderRadius: "4px", marginTop: "5px" }} />
                         </div>
 
-                        <button type="submit" style={{ background: "#bfa37a", color: "#fff", border: "none", padding: "12px 30px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}>Save Changes</button>
+                        <button type="submit" style={{ background: "#cb8161", color: "#fff", border: "none", padding: "12px 30px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}>Save Changes</button>
                       </form>
                     </div>
                   )}

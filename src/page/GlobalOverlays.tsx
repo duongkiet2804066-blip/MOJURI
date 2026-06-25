@@ -190,7 +190,7 @@ const GlobalOverlays: React.FC = () => {
                             style={{ width: "25px", height: "25px", border: "1px solid #ccc", background: "#fff" }}
                           >+</button>
                         </div>
-                        <div className="price" style={{ marginTop: "5px", color: "#bfa37a" }}>
+                        <div className="price" style={{ marginTop: "5px", color: "#cb8161" }}>
                           ${(item.product.price * item.quantity).toFixed(2)}
                         </div>
                       </div>
@@ -211,7 +211,7 @@ const GlobalOverlays: React.FC = () => {
                       <div className="title-ship">Congratulations! You've earned <strong>FREE Shipping</strong></div>
                     )}
                     <div className="total-percent" style={{ background: "#eee", borderRadius: "10px", height: "6px", overflow: "hidden", marginTop: "5px" }}>
-                      <div className="percent" style={{ width: `${progressPercent}%`, background: "#bfa37a", height: "100%" }}></div>
+                      <div className="percent" style={{ width: `${progressPercent}%`, background: "#cb8161", height: "100%" }}></div>
                     </div>
                   </div>
 
@@ -227,7 +227,7 @@ const GlobalOverlays: React.FC = () => {
                     <Link 
                       to="/checkout" 
                       className="button btn checkout btn-default" 
-                      style={{ flex: 1, textAlign: "center", background: "#bfa37a", color: "#fff", padding: "12px", textTransform: "uppercase", fontSize: "12px", letterSpacing: "1px" }}
+                      style={{ flex: 1, textAlign: "center", background: "#cb8161", color: "#fff", padding: "12px", textTransform: "uppercase", fontSize: "12px", letterSpacing: "1px" }}
                       onClick={() => setIsCartOpen(false)}
                     >
                       Checkout
@@ -376,7 +376,7 @@ const GlobalOverlays: React.FC = () => {
                                   <span>${quickviewProduct.oldPrice}</span>
                                 </del>
                               )}
-                              <span style={{ color: "#bfa37a", fontWeight: "bold" }}>${quickviewProduct.price}</span>
+                              <span style={{ color: "#cb8161", fontWeight: "bold" }}>${quickviewProduct.price}</span>
                             </div>
                           </div>
 
@@ -407,7 +407,7 @@ const GlobalOverlays: React.FC = () => {
                               <button 
                                 type="submit" 
                                 className="single-add-to-cart-button button alt"
-                                style={{ background: "#bfa37a", color: "#fff", height: "40px", padding: "0 30px", border: "none", cursor: "pointer", textTransform: "uppercase" }}
+                                style={{ background: "#cb8161", color: "#fff", height: "40px", padding: "0 30px", border: "none", cursor: "pointer", textTransform: "uppercase" }}
                               >
                                 Add to cart
                               </button>
@@ -466,7 +466,7 @@ const GlobalOverlays: React.FC = () => {
                   <Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#111", fontWeight: 600 }}>Home</Link>
                 </li>
                 <li>
-                  <Link to="/admin/dashboard" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#bfa37a", fontWeight: 700 }}>Admin Dashboard</Link>
+                  <Link to="/admin/dashboard" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#cb8161", fontWeight: 700 }}>Admin Dashboard</Link>
                 </li>
                 <li>
                   <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#111", fontWeight: 600 }}>Shop</Link>

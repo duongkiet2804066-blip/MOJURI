@@ -82,7 +82,7 @@ const FAQ: React.FC = () => {
                         cursor: "pointer",
                         fontWeight: "bold",
                         fontSize: "18px",
-                        color: isOpen ? "#bfa37a" : "#111",
+                        color: isOpen ? "#cb8161" : "#111",
                         fontFamily: "Cormorant Garamond"
                       }}
                     >
@@ -114,7 +114,7 @@ const FAQ: React.FC = () => {
               <Link 
                 to="/contact" 
                 style={{ 
-                  background: "#bfa37a", 
+                  background: "#cb8161", 
                   color: "#fff", 
                   padding: "10px 25px", 
                   textTransform: "uppercase", 

@@ -89,7 +89,7 @@ const Shop: React.FC = () => {
                         display: "flex", 
                         justifyContent: "space-between", 
                         cursor: "pointer", 
-                        color: selectedCategory === cat ? "#bfa37a" : "#111",
+                        color: selectedCategory === cat ? "#cb8161" : "#111",
                         fontWeight: selectedCategory === cat ? "bold" : "normal"
                       }}
                       onClick={() => setSelectedCategory(cat)}
@@ -139,13 +139,13 @@ const Shop: React.FC = () => {
                   <div style={{ display: "flex", gap: "10px" }}>
                     <button 
                       onClick={() => setViewMode("grid")}
-                      style={{ background: viewMode === "grid" ? "#bfa37a" : "#eee", border: "none", padding: "5px 10px", color: viewMode === "grid" ? "#fff" : "#111", cursor: "pointer" }}
+                      style={{ background: viewMode === "grid" ? "#cb8161" : "#eee", border: "none", padding: "5px 10px", color: viewMode === "grid" ? "#fff" : "#111", cursor: "pointer" }}
                     >
                       <i className="fa fa-th"></i>
                     </button>
                     <button 
                       onClick={() => setViewMode("list")}
-                      style={{ background: viewMode === "list" ? "#bfa37a" : "#eee", border: "none", padding: "5px 10px", color: viewMode === "list" ? "#fff" : "#111", cursor: "pointer" }}
+                      style={{ background: viewMode === "list" ? "#cb8161" : "#eee", border: "none", padding: "5px 10px", color: viewMode === "list" ? "#fff" : "#111", cursor: "pointer" }}
                     >
                       <i className="fa fa-list"></i>
                     </button>
@@ -185,7 +185,7 @@ const Shop: React.FC = () => {
                               </Link>
                             </div>
                             <div style={{ flex: 1, minWidth: "250px" }}>
-                              <span style={{ fontSize: "12px", textTransform: "uppercase", color: "#bfa37a", fontWeight: "bold" }}>{product.category}</span>
+                              <span style={{ fontSize: "12px", textTransform: "uppercase", color: "#cb8161", fontWeight: "bold" }}>{product.category}</span>
                               <h2 style={{ fontFamily: "Cormorant Garamond", fontSize: "32px", margin: "10px 0 5px" }}>
                                 <Link to={`/product/${product.id}`} style={{ color: "#111" }}>{product.name}</Link>
                               </h2>
@@ -194,7 +194,7 @@ const Shop: React.FC = () => {
                               </div>
                               <p style={{ color: "#666", marginBottom: "20px" }}>{product.description}</p>
                               
-                              <div style={{ fontSize: "22px", fontWeight: "bold", color: "#bfa37a", marginBottom: "20px" }}>
+                              <div style={{ fontSize: "22px", fontWeight: "bold", color: "#cb8161", marginBottom: "20px" }}>
                                 {product.oldPrice && <del style={{ color: "#aaa", fontSize: "16px", marginRight: "10px" }}>${product.oldPrice}</del>}
                                 ${product.price}
                               </div>
@@ -203,13 +203,13 @@ const Shop: React.FC = () => {
                                 <button 
                                   onClick={() => addToCart(product, 1)} 
                                   className="button"
-                                  style={{ background: "#bfa37a", color: "#fff", padding: "10px 25px", border: "none", cursor: "pointer", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
+                                  style={{ background: "#cb8161", color: "#fff", padding: "10px 25px", border: "none", cursor: "pointer", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
                                 >
                                   Add to cart
                                 </button>
                                 <button 
                                   onClick={() => toggleWishlist(product)} 
-                                  style={{ padding: "10px 15px", background: isWish ? "#bfa37a" : "#eee", color: isWish ? "#fff" : "#111", border: "none", cursor: "pointer", borderRadius: "4px" }}
+                                  style={{ padding: "10px 15px", background: isWish ? "#cb8161" : "#eee", color: isWish ? "#fff" : "#111", border: "none", cursor: "pointer", borderRadius: "4px" }}
                                 >
                                   <i className="icon-heart"></i>
                                 </button>
@@ -240,7 +240,7 @@ const Shop: React.FC = () => {
                             )}
                             {product.oldPrice && (
                               <div className="product-lable" style={{ position: "absolute", top: "10px", left: "10px", zIndex: 3 }}>
-                                <div className="onsale" style={{ background: "#bfa37a", color: "#fff", fontSize: "10px", fontWeight: "bold", padding: "3px 8px" }}>
+                                <div className="onsale" style={{ background: "#cb8161", color: "#fff", fontSize: "10px", fontWeight: "bold", padding: "3px 8px" }}>
                                   -{Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)}%
                                 </div>
                               </div>
@@ -262,7 +262,7 @@ const Shop: React.FC = () => {
                                 <button 
                                   className={`product-btn ${isWish ? "active" : ""}`}
                                   onClick={() => toggleWishlist(product)}
-                                  style={{ padding: "8px 12px", background: isWish ? "#bfa37a" : "#fff", color: isWish ? "#fff" : "#111" }}
+                                  style={{ padding: "8px 12px", background: isWish ? "#cb8161" : "#fff", color: isWish ? "#fff" : "#111" }}
                                 >
                                   <i className="icon-heart"></i>
                                 </button>
@@ -289,7 +289,7 @@ const Shop: React.FC = () => {
                                   <span style={{ width: `${(product.rating / 5) * 100}%` }}></span>
                                 </div>
                               </div>
-                              <span className="price" style={{ color: "#bfa37a", fontSize: "16px", fontWeight: "bold" }}>
+                              <span className="price" style={{ color: "#cb8161", fontSize: "16px", fontWeight: "bold" }}>
                                 {product.oldPrice && <del style={{ color: "#aaa", fontSize: "14px", marginRight: "10px" }}>${product.oldPrice}</del>}
                                 ${product.price}
                               </span>

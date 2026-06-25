@@ -99,7 +99,7 @@ const Header: React.FC = () => {
             <Link to="/wishlist">
               <i className="wpb-icon-heart"></i>
               {wishlistItems.length > 0 && (
-                <span className="count-wishlist" style={{ top: "-5px", right: "-5px", background: "#bfa37a", color: "#fff", borderRadius: "50%", padding: "2px 6px", fontSize: "10px", position: "absolute" }}>
+                <span className="count-wishlist" style={{ top: "-5px", right: "-5px", background: "#cb8161", color: "#fff", borderRadius: "50%", padding: "2px 6px", fontSize: "10px", position: "absolute" }}>
                   {wishlistItems.length}
                 </span>
               )}
@@ -140,7 +140,7 @@ const Header: React.FC = () => {
                         <li className="level-0 menu-item menu-item-has-children">
                           <a href="#" onClick={(e) => e.preventDefault()}><span className="menu-item-text">Pages</span></a>
                           <ul className="sub-menu">
-                            <li><Link to="/admin/dashboard"><span className="menu-item-text" style={{ fontWeight: "bold", color: "#bfa37a" }}>Admin Dashboard</span></Link></li>
+                            <li><Link to="/admin/dashboard"><span className="menu-item-text" style={{ fontWeight: "bold", color: "#cb8161" }}>Admin Dashboard</span></Link></li>
                             <li><Link to="/my-account"><span className="menu-item-text">Login / Register</span></Link></li>
                             <li><Link to="/my-account"><span className="menu-item-text">My Account</span></Link></li>
                             <li><Link to="/about"><span className="menu-item-text">About Us</span></Link></li>
@@ -162,7 +162,7 @@ const Header: React.FC = () => {
                 <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 header-right">
                   <div className="header-page-link">
                     {/* Admin Button */}
-                    <div className="admin-header-btn-wrap" style={{ display: "flex", alignItems: "center", marginRight: "20px" }}>
+                    <div className="admin-header-btn-wrap" style={{ display: "inline-flex", alignItems: "center", marginRight: "20px", verticalAlign: "middle" }}>
                       <Link 
                         to="/admin/dashboard" 
                         className="admin-header-btn"

@@ -60,11 +60,11 @@ const Wishlist: React.FC = () => {
                       </td>
                       <td>
                         {product.oldPrice && <del style={{ color: "#aaa", marginRight: "10px" }}>${product.oldPrice}</del>}
-                        <span style={{ fontWeight: "bold", color: "#bfa37a" }}>${product.price}</span>
+                        <span style={{ fontWeight: "bold", color: "#cb8161" }}>${product.price}</span>
                       </td>
                       <td>
                         <span style={{ color: product.inStock ? "green" : "red", fontWeight: "bold" }}>
-                          {product.inStock ? "In Stock" : "Out of Stock"}
+                           {product.inStock ? "In Stock" : "Out of Stock"}
                         </span>
                       </td>
                       <td>
@@ -72,7 +72,7 @@ const Wishlist: React.FC = () => {
                           onClick={() => addToCart(product, 1)}
                           disabled={!product.inStock}
                           style={{
-                            background: product.inStock ? "#bfa37a" : "#ccc",
+                            background: product.inStock ? "#cb8161" : "#ccc",
                             color: "#fff",
                             border: "none",
                             padding: "8px 20px",

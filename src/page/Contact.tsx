@@ -88,7 +88,7 @@ const Contact: React.FC = () => {
                             <h2 style={{ fontFamily: "Cormorant Garamond" }}>Returns</h2>
                           </div>
                           <div className="item-content small-width" style={{ color: "#666" }}>
-                            For information on Returns and Refunds, please click <a href="#" style={{ color: "#bfa37a" }}>here.</a>
+                            For information on Returns and Refunds, please click <a href="#" style={{ color: "#cb8161" }}>here.</a>
                           </div>
                         </div>
                       </div>
@@ -157,7 +157,7 @@ const Contact: React.FC = () => {
                             type="submit" 
                             value="Submit" 
                             className="button" 
-                            style={{ background: "#bfa37a", color: "#fff", border: "none", padding: "12px 40px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}
+                            style={{ background: "#cb8161", color: "#fff", border: "none", padding: "12px 40px", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px", cursor: "pointer" }}
                           />
                         </div>
                       </div>

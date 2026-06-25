@@ -39,7 +39,7 @@ const AdminOrders: React.FC = () => {
               onClick={() => setFilter(st)}
               className="admin-btn admin-btn-secondary admin-btn-sm"
               style={{
-                background: filter === st ? "#bfa37a" : "",
+                background: filter === st ? "#cb8161" : "",
                 color: filter === st ? "#fff" : ""
               }}
             >
@@ -65,7 +65,7 @@ const AdminOrders: React.FC = () => {
             <tbody>
               {filteredOrders.map((order) => (
                 <tr key={order.id}>
-                  <td style={{ fontWeight: 600, color: "#bfa37a" }}>#{order.id}</td>
+                  <td style={{ fontWeight: 600, color: "#cb8161" }}>#{order.id}</td>
                   <td>
                     <div style={{ fontWeight: 600 }}>{order.customer}</div>
                     <span style={{ fontSize: "12px", color: "#a1a5b7" }}>{order.email}</span>

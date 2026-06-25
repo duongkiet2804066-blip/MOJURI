@@ -79,7 +79,7 @@ const Cart: React.FC = () => {
                               <button onClick={() => updateCartQty(item.product.id, item.quantity + 1)} style={{ padding: "5px 10px", border: "1px solid #ccc", background: "#fff" }}>+</button>
                             </div>
                           </td>
-                          <td style={{ fontWeight: "bold", color: "#bfa37a" }}>
+                          <td style={{ fontWeight: "bold", color: "#cb8161" }}>
                             ${(item.product.price * item.quantity).toFixed(2)}
                           </td>
                           <td>
@@ -130,7 +130,7 @@ const Cart: React.FC = () => {
                         </div>
                       )}
                       <div style={{ background: "#e0e0e0", height: "8px", borderRadius: "10px", overflow: "hidden", marginTop: "10px" }}>
-                        <div style={{ width: `${progressPercent}%`, background: "#bfa37a", height: "100%", transition: "width 0.3s ease" }}></div>
+                        <div style={{ width: `${progressPercent}%`, background: "#cb8161", height: "100%", transition: "width 0.3s ease" }}></div>
                       </div>
                     </div>
 
@@ -146,7 +146,7 @@ const Cart: React.FC = () => {
 
                     <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "30px", fontSize: "20px", fontWeight: "bold", borderTop: "1px solid #eee", paddingTop: "20px" }}>
                       <span>Total</span>
-                      <span style={{ color: "#bfa37a" }}>
+                      <span style={{ color: "#cb8161" }}>
                         ${(cartTotal + (leftForFreeShipping <= 0 ? 0 : 15)).toFixed(2)}
                       </span>
                     </div>
@@ -154,7 +154,7 @@ const Cart: React.FC = () => {
                     <Link 
                       to="/checkout"
                       className="button btn checkout btn-default"
-                      style={{ display: "block", textAlign: "center", background: "#bfa37a", color: "#fff", padding: "15px", textTransform: "uppercase", fontWeight: "bold", fontSize: "14px", borderRadius: "4px", letterSpacing: "1px" }}
+                      style={{ display: "block", textAlign: "center", background: "#cb8161", color: "#fff", padding: "15px", textTransform: "uppercase", fontWeight: "bold", fontSize: "14px", borderRadius: "4px", letterSpacing: "1px" }}
                     >
                       Proceed to Checkout
                     </Link>

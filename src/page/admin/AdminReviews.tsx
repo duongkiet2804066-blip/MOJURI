@@ -51,7 +51,7 @@ const AdminReviews: React.FC = () => {
               {reviews.map((rev) => (
                 <tr key={rev.id}>
                   <td style={{ fontWeight: 600 }}>{rev.customer}</td>
-                  <td style={{ color: "#bfa37a", fontWeight: 600 }}>{rev.product}</td>
+                  <td style={{ color: "#cb8161", fontWeight: 600 }}>{rev.product}</td>
                   <td>
                     <div style={{ color: "#ffc700", fontWeight: "bold", display: "flex", gap: "2px" }}>
                       {"★".repeat(rev.rating)}

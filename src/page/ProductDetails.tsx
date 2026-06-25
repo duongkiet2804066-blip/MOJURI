@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
-import { PRODUCTS, type Product } from "../data/products";
+import { type Product } from "../data/products";
 
 const ProductDetails: React.FC = () => {
   const { id } = useParams<{ id: string }>();
-  const { addToCart, toggleWishlist, isInWishlist, addToCompare } = useShop();
+  const { products, addToCart, toggleWishlist, isInWishlist, addToCompare } = useShop();
 
   const [product, setProduct] = useState<Product | null>(null);
   const [quantity, setQuantity] = useState(1);
@@ -14,13 +14,13 @@ const ProductDetails: React.FC = () => {
   // Find product
   useEffect(() => {
     if (id) {
-      const found = PRODUCTS.find((p) => p.id === parseInt(id));
+      const found = products.find((p) => p.id === parseInt(id));
       if (found) {
         setProduct(found);
         setQuantity(1); // reset quantity when product changes
       }
     }
-  }, [id]);
+  }, [id, products]);
 
   if (!product) {
     return (
@@ -33,7 +33,7 @@ const ProductDetails: React.FC = () => {
   }
 
   // Related products (from same category, excluding current product)
-  const relatedProducts = PRODUCTS.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
+  const relatedProducts = products.filter((p) => p.category === product.category && p.id !== product.id).slice(0, 4);
 
   const isWish = isInWishlist(product.id);
 
@@ -69,7 +69,7 @@ const ProductDetails: React.FC = () => {
                       style={{ width: "100%", borderRadius: "8px", border: "1px solid #eee" }} 
                     />
                     <div style={{ display: "flex", gap: "15px", marginTop: "15px" }}>
-                      <img src={product.image} alt={product.name} style={{ width: "80px", border: "1px solid #bfa37a", padding: "2px", borderRadius: "4px" }} />
+                      <img src={product.image} alt={product.name} style={{ width: "80px", border: "1px solid #cb8161", padding: "2px", borderRadius: "4px" }} />
                       <img src={product.hoverImage} alt={product.name} style={{ width: "80px", border: "1px solid #eee", padding: "2px", borderRadius: "4px" }} />
                     </div>
                   </div>
@@ -97,7 +97,7 @@ const ProductDetails: React.FC = () => {
                               <span>${product.oldPrice}</span>
                             </del>
                           )}
-                          <span style={{ color: "#bfa37a", fontWeight: "bold" }}>${product.price}</span>
+                          <span style={{ color: "#cb8161", fontWeight: "bold" }}>${product.price}</span>
                         </div>
                       </div>
 
@@ -121,7 +121,7 @@ const ProductDetails: React.FC = () => {
                           <button 
                             type="submit" 
                             className="single-add-to-cart-button button alt"
-                            style={{ background: "#bfa37a", color: "#fff", height: "45px", padding: "0 35px", border: "none", cursor: "pointer", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
+                            style={{ background: "#cb8161", color: "#fff", height: "45px", padding: "0 35px", border: "none", cursor: "pointer", textTransform: "uppercase", fontWeight: "bold", borderRadius: "4px" }}
                           >
                             Add to cart
                           </button>
@@ -133,7 +133,7 @@ const ProductDetails: React.FC = () => {
                         <a 
                           href="#" 
                           onClick={(e) => { e.preventDefault(); toggleWishlist(product); }}
-                          style={{ color: isWish ? "#bfa37a" : "#111", fontWeight: 600 }}
+                          style={{ color: isWish ? "#cb8161" : "#111", fontWeight: 600 }}
                         >
                           <i className="icon-heart" style={{ marginRight: "8px" }}></i>
                           {isWish ? "Remove from Wishlist" : "Add to Wishlist"}
@@ -168,7 +168,7 @@ const ProductDetails: React.FC = () => {
                       padding: "15px 30px", 
                       border: "none", 
                       background: activeTab === "description" ? "#fff" : "none", 
-                      color: activeTab === "description" ? "#bfa37a" : "#666",
+                      color: activeTab === "description" ? "#cb8161" : "#666",
                       fontWeight: "bold",
                       borderRight: "1px solid #eee",
                       cursor: "pointer"
@@ -182,7 +182,7 @@ const ProductDetails: React.FC = () => {
                       padding: "15px 30px", 
                       border: "none", 
                       background: activeTab === "reviews" ? "#fff" : "none", 
-                      color: activeTab === "reviews" ? "#bfa37a" : "#666",
+                      color: activeTab === "reviews" ? "#cb8161" : "#666",
                       fontWeight: "bold",
                       cursor: "pointer"
                     }}
@@ -206,7 +206,7 @@ const ProductDetails: React.FC = () => {
                         <div style={{ borderBottom: "1px solid #eee", paddingBottom: "15px" }}>
                           <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "5px" }}>
                             <strong>Jane Doe</strong>
-                            <span style={{ color: "#bfa37a" }}>★★★★★</span>
+                            <span style={{ color: "#cb8161" }}>★★★★★</span>
                           </div>
                           <div style={{ fontSize: "12px", color: "#999", marginBottom: "10px" }}>June 10, 2026</div>
                           <p style={{ color: "#666" }}>Absolutely stunning! The packaging was gorgeous and the earrings have a premium weight to them. Highly recommend!</p>
@@ -236,7 +236,7 @@ const ProductDetails: React.FC = () => {
                             <h3 style={{ fontFamily: "Cormorant Garamond", fontSize: "18px", fontWeight: 600 }}>
                               <Link to={`/product/${p.id}`} style={{ color: "#111" }}>{p.name}</Link>
                             </h3>
-                            <span className="price" style={{ color: "#bfa37a", fontWeight: "bold" }}>${p.price}</span>
+                            <span className="price" style={{ color: "#cb8161", fontWeight: "bold" }}>${p.price}</span>
                           </div>
                         </div>
                       </div>

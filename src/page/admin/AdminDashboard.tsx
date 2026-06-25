@@ -103,7 +103,7 @@ const AdminDashboard: React.FC = () => {
                   <tbody>
                     {recentOrders.map((order, index) => (
                       <tr key={index}>
-                        <td style={{ fontWeight: 600, color: "#bfa37a" }}>{order.id}</td>
+                        <td style={{ fontWeight: 600, color: "#cb8161" }}>{order.id}</td>
                         <td>{order.customer}</td>
                         <td>{order.product}</td>
                         <td>{order.date}</td>

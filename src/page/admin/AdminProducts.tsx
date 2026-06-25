@@ -1,12 +1,14 @@
 import React, { useState } from "react";
-import { PRODUCTS, type Product } from "../../data/products";
+import { useShop } from "../../context/ShopContext";
+import { type Product } from "../../data/products";
 
 const AdminProducts: React.FC = () => {
-  const [productList, setProductList] = useState<Product[]>(PRODUCTS);
+  const { products, addProduct, updateProduct, deleteProduct } = useShop();
   const [searchTerm, setSearchTerm] = useState("");
   const [isAddMode, setIsAddMode] = useState(false);
+  const [editingProduct, setEditingProduct] = useState<Product | null>(null);
   
-  // Form State
+  // Form State for Adding
   const [newProduct, setNewProduct] = useState({
     name: "",
     price: 0,
@@ -19,7 +21,7 @@ const AdminProducts: React.FC = () => {
 
   const handleDelete = (id: number) => {
     if (window.confirm("Are you sure you want to delete this product?")) {
-      setProductList(productList.filter(p => p.id !== id));
+      deleteProduct(id);
     }
   };
 
@@ -27,7 +29,7 @@ const AdminProducts: React.FC = () => {
     setSearchTerm(e.target.value);
   };
 
-  const filteredProducts = productList.filter(p => 
+  const filteredProducts = products.filter(p => 
     p.name.toLowerCase().includes(searchTerm.toLowerCase()) || 
     p.sku.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.category.toLowerCase().includes(searchTerm.toLowerCase())
@@ -36,7 +38,7 @@ const AdminProducts: React.FC = () => {
   const handleAddSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const product: Product = {
-      id: productList.length > 0 ? Math.max(...productList.map(p => p.id)) + 1 : 1,
+      id: products.length > 0 ? Math.max(...products.map(p => p.id)) + 1 : 1,
       name: newProduct.name,
       price: Number(newProduct.price),
       oldPrice: newProduct.oldPrice ? Number(newProduct.oldPrice) : undefined,
@@ -50,7 +52,7 @@ const AdminProducts: React.FC = () => {
       inStock: true
     };
 
-    setProductList([product, ...productList]);
+    addProduct(product);
     setIsAddMode(false);
     // Reset form
     setNewProduct({
@@ -62,6 +64,14 @@ const AdminProducts: React.FC = () => {
       description: "",
       image: "/media/product/1.jpg"
     });
+  };
+
+  const handleEditSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (editingProduct) {
+      updateProduct(editingProduct);
+      setEditingProduct(null);
+    }
   };
 
   return (
@@ -173,6 +183,124 @@ const AdminProducts: React.FC = () => {
             </form>
           </div>
         </div>
+      ) : editingProduct ? (
+        <div className="admin-card">
+          <div className="admin-card-header">
+            <h3 className="admin-card-title">Edit Product: {editingProduct.name}</h3>
+            <button className="admin-btn admin-btn-secondary admin-btn-sm" onClick={() => setEditingProduct(null)}>
+              Back to List
+            </button>
+          </div>
+          <div className="admin-card-body">
+            <form onSubmit={handleEditSubmit} style={{ maxWidth: "600px" }}>
+              <div className="admin-form-group">
+                <label className="admin-form-label">Product Name</label>
+                <input 
+                  type="text" 
+                  required
+                  className="admin-form-control"
+                  value={editingProduct.name}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, name: e.target.value })}
+                />
+              </div>
+
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="admin-form-group">
+                    <label className="admin-form-label">Price ($)</label>
+                    <input 
+                      type="number" 
+                      required
+                      min="1"
+                      className="admin-form-control"
+                      value={editingProduct.price || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, price: Number(e.target.value) })}
+                    />
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="admin-form-group">
+                    <label className="admin-form-label">Old Price ($) - Optional</label>
+                    <input 
+                      type="number" 
+                      className="admin-form-control"
+                      value={editingProduct.oldPrice || ""}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, oldPrice: e.target.value ? Number(e.target.value) : undefined })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="row">
+                <div className="col-md-6">
+                  <div className="admin-form-group">
+                    <label className="admin-form-label">Category</label>
+                    <select 
+                      className="admin-form-control"
+                      value={editingProduct.category}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, category: e.target.value })}
+                    >
+                      <option value="Earrings">Earrings</option>
+                      <option value="Rings">Rings</option>
+                      <option value="Necklaces">Necklaces</option>
+                      <option value="Bracelets">Bracelets</option>
+                      <option value="Charms">Charms</option>
+                    </select>
+                  </div>
+                </div>
+                <div className="col-md-6">
+                  <div className="admin-form-group">
+                    <label className="admin-form-label">SKU</label>
+                    <input 
+                      type="text" 
+                      className="admin-form-control"
+                      value={editingProduct.sku}
+                      onChange={(e) => setEditingProduct({ ...editingProduct, sku: e.target.value })}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-form-label">Stock Status</label>
+                <select 
+                  className="admin-form-control"
+                  value={editingProduct.inStock ? "true" : "false"}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, inStock: e.target.value === "true" })}
+                >
+                  <option value="true">In Stock</option>
+                  <option value="false">Out of Stock</option>
+                </select>
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-form-label">Description</label>
+                <textarea 
+                  required
+                  rows={4}
+                  className="admin-form-control"
+                  value={editingProduct.description}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, description: e.target.value })}
+                ></textarea>
+              </div>
+
+              <div className="admin-form-group">
+                <label className="admin-form-label">Image Path</label>
+                <input 
+                  type="text" 
+                  required
+                  className="admin-form-control"
+                  value={editingProduct.image}
+                  onChange={(e) => setEditingProduct({ ...editingProduct, image: e.target.value, hoverImage: e.target.value })}
+                />
+              </div>
+
+              <button type="submit" className="admin-btn admin-btn-primary">
+                Update Product
+              </button>
+            </form>
+          </div>
+        </div>
       ) : (
         <div className="admin-card">
           <div className="admin-card-header">
@@ -237,7 +365,7 @@ const AdminProducts: React.FC = () => {
                         <button 
                           className="admin-btn admin-btn-secondary admin-btn-sm"
                           style={{ marginRight: "5px", padding: "4px 8px" }}
-                          onClick={() => alert(`Edit feature for product ${product.id} coming soon!`)}
+                          onClick={() => setEditingProduct(product)}
                         >
                           Edit
                         </button>
