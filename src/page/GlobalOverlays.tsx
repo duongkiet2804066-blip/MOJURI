@@ -466,6 +466,9 @@ const GlobalOverlays: React.FC = () => {
                   <Link to="/" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#111", fontWeight: 600 }}>Home</Link>
                 </li>
                 <li>
+                  <Link to="/admin/dashboard" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#bfa37a", fontWeight: 700 }}>Admin Dashboard</Link>
+                </li>
+                <li>
                   <Link to="/shop" onClick={() => setIsMobileMenuOpen(false)} style={{ color: "#111", fontWeight: 600 }}>Shop</Link>
                 </li>
                 <li>

@@ -1,5 +1,5 @@
 import { useEffect } from "react";
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation, Navigate } from "react-router-dom";
 import { ShopProvider } from "./context/ShopContext";
 
 import Header from "./page/Header";
@@ -17,12 +17,27 @@ import About from "./page/About";
 import FAQ from "./page/FAQ";
 import MyAccount from "./page/MyAccount";
 
+// Admin Page Imports
+import AdminLayout from "./page/admin/AdminLayout";
+import AdminDashboard from "./page/admin/AdminDashboard";
+import AdminProducts from "./page/admin/AdminProducts";
+import AdminCategories from "./page/admin/AdminCategories";
+import AdminOrders from "./page/admin/AdminOrders";
+import AdminCustomers from "./page/admin/AdminCustomers";
+import AdminUsers from "./page/admin/AdminUsers";
+import AdminBlogs from "./page/admin/AdminBlogs";
+import AdminBanners from "./page/admin/AdminBanners";
+import AdminReviews from "./page/admin/AdminReviews";
+import AdminSettings from "./page/admin/AdminSettings";
+
 function RouteBodyClassManager() {
   const location = useLocation();
 
   useEffect(() => {
     const path = location.pathname;
-    if (path === "/") {
+    if (path.startsWith("/admin")) {
+      document.body.className = "admin-body";
+    } else if (path === "/") {
       document.body.className = "home";
     } else if (
       path === "/shop" ||
@@ -40,35 +55,59 @@ function RouteBodyClassManager() {
   return null;
 }
 
+function AppContent() {
+  const location = useLocation();
+  const isAdmin = location.pathname.startsWith("/admin");
+
+  return (
+    <div id="page" className={isAdmin ? "admin-root-wrapper" : "hfeed page-wrapper"}>
+      {!isAdmin && <Header />}
+
+      <div id="site-main" className={isAdmin ? "admin-site-main" : "site-main"}>
+        <div id="main-content" className={isAdmin ? "admin-main-content" : "main-content"}>
+          <Routes>
+            {/* Storefront Routes */}
+            <Route path="/" element={<Home />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/shop" element={<Shop />} />
+            <Route path="/product/:id" element={<ProductDetails />} />
+            <Route path="/cart" element={<Cart />} />
+            <Route path="/checkout" element={<Checkout />} />
+            <Route path="/wishlist" element={<Wishlist />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/my-account" element={<MyAccount />} />
+
+            {/* Admin Routes */}
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route path="/admin" element={<AdminLayout />}>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="products" element={<AdminProducts />} />
+              <Route path="categories" element={<AdminCategories />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="customers" element={<AdminCustomers />} />
+              <Route path="users" element={<AdminUsers />} />
+              <Route path="blogs" element={<AdminBlogs />} />
+              <Route path="banners" element={<AdminBanners />} />
+              <Route path="reviews" element={<AdminReviews />} />
+              <Route path="settings" element={<AdminSettings />} />
+            </Route>
+          </Routes>
+        </div>
+      </div>
+
+      {!isAdmin && <Footer />}
+      {!isAdmin && <GlobalOverlays />}
+    </div>
+  );
+}
+
 function App() {
   return (
     <ShopProvider>
       <BrowserRouter>
         <RouteBodyClassManager />
-        <div id="page" className="hfeed page-wrapper">
-          <Header />
-
-          <div id="site-main" className="site-main">
-            <div id="main-content" className="main-content">
-              <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/contact" element={<Contact />} />
-                <Route path="/shop" element={<Shop />} />
-                <Route path="/product/:id" element={<ProductDetails />} />
-                <Route path="/cart" element={<Cart />} />
-                <Route path="/checkout" element={<Checkout />} />
-                <Route path="/wishlist" element={<Wishlist />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/faq" element={<FAQ />} />
-                <Route path="/my-account" element={<MyAccount />} />
-              </Routes>
-            </div>
-          </div>
-
-          <Footer />
-        </div>
-
-        <GlobalOverlays />
+        <AppContent />
       </BrowserRouter>
     </ShopProvider>
   );

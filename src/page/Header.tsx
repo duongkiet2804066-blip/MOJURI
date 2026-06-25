@@ -140,6 +140,7 @@ const Header: React.FC = () => {
                         <li className="level-0 menu-item menu-item-has-children">
                           <a href="#" onClick={(e) => e.preventDefault()}><span className="menu-item-text">Pages</span></a>
                           <ul className="sub-menu">
+                            <li><Link to="/admin/dashboard"><span className="menu-item-text" style={{ fontWeight: "bold", color: "#bfa37a" }}>Admin Dashboard</span></Link></li>
                             <li><Link to="/my-account"><span className="menu-item-text">Login / Register</span></Link></li>
                             <li><Link to="/my-account"><span className="menu-item-text">My Account</span></Link></li>
                             <li><Link to="/about"><span className="menu-item-text">About Us</span></Link></li>
@@ -160,6 +161,39 @@ const Header: React.FC = () => {
 
                 <div className="col-xl-3 col-lg-3 col-md-12 col-sm-12 col-12 header-right">
                   <div className="header-page-link">
+                    {/* Admin Button */}
+                    <div className="admin-header-btn-wrap" style={{ display: "flex", alignItems: "center", marginRight: "20px" }}>
+                      <Link 
+                        to="/admin/dashboard" 
+                        className="admin-header-btn"
+                        style={{
+                          fontSize: "12px",
+                          fontWeight: 700,
+                          textTransform: "uppercase",
+                          letterSpacing: "1px",
+                          padding: "6px 14px",
+                          borderRadius: "4px",
+                          border: isHome ? "1px solid rgba(255,255,255,0.4)" : "1px solid rgba(17,17,17,0.2)",
+                          color: isHome ? "#fff" : "#111",
+                          textDecoration: "none",
+                          transition: "all 0.3s ease",
+                          whiteSpace: "nowrap"
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.backgroundColor = isHome ? "#fff" : "#111";
+                          e.currentTarget.style.color = isHome ? "#111" : "#fff";
+                          e.currentTarget.style.borderColor = isHome ? "#fff" : "#111";
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.backgroundColor = "transparent";
+                          e.currentTarget.style.color = isHome ? "#fff" : "#111";
+                          e.currentTarget.style.borderColor = isHome ? "rgba(255,255,255,0.4)" : "rgba(17,17,17,0.2)";
+                        }}
+                      >
+                        Admin
+                      </Link>
+                    </div>
+
                     {/* Search */}
                     <div className="search-box">
                       <div className="search-toggle" onClick={() => setIsSearchOpen(true)}>
