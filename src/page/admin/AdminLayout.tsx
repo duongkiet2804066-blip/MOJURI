@@ -1,10 +1,9 @@
 import React, { useState } from "react";
-import { NavLink, Outlet, Link, useNavigate } from "react-router-dom";
+import { NavLink, Outlet, Link } from "react-router-dom";
 import "./Admin.css";
 
 const AdminLayout: React.FC = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const navigate = useNavigate();
 
   const menuItems = [
     {
