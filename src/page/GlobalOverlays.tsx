@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useShop } from "../context/ShopContext";
 
@@ -29,6 +29,42 @@ const GlobalOverlays: React.FC = () => {
   const navigate = useNavigate();
   const [localSearch, setLocalSearch] = useState("");
   const [quickviewQty, setQuickviewQty] = useState(1);
+
+  // Newsletter Popup States
+  const [showNewsletter, setShowNewsletter] = useState(false);
+  const [email, setEmail] = useState("");
+  const [couponCode, setCouponCode] = useState<string | null>(null);
+  const [copySuccess, setCopySuccess] = useState(false);
+
+  useEffect(() => {
+    const hasSeen = localStorage.getItem("mojuri_newsletter_subscribed") || localStorage.getItem("mojuri_newsletter_closed");
+    if (!hasSeen) {
+      const timer = setTimeout(() => {
+        setShowNewsletter(true);
+      }, 3000);
+      return () => clearTimeout(timer);
+    }
+  }, []);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    setCouponCode("MOJURI20");
+    localStorage.setItem("mojuri_newsletter_subscribed", "true");
+  };
+
+  const handleClose = () => {
+    setShowNewsletter(false);
+    localStorage.setItem("mojuri_newsletter_closed", "true");
+  };
+
+  const handleCopyCoupon = () => {
+    navigator.clipboard.writeText("MOJURI20");
+    setCopySuccess(true);
+    setTimeout(() => {
+      setCopySuccess(false);
+    }, 2000);
+  };
 
   // Cart calculations
   const cartCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
@@ -485,6 +521,255 @@ const GlobalOverlays: React.FC = () => {
                 </li>
               </ul>
             </nav>
+          </div>
+        </div>
+      )}
+
+      {/* 6. Newsletter Discount Coupon Popup */}
+      {showNewsletter && (
+        <div style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          bottom: 0,
+          backgroundColor: "rgba(0,0,0,0.5)",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          zIndex: 9999999,
+          padding: "20px"
+        }}>
+          <style>{`
+            @keyframes popupFadeIn {
+              from {
+                opacity: 0;
+                transform: scale(0.95);
+              }
+              to {
+                opacity: 1;
+                transform: scale(1);
+              }
+            }
+            @media (min-width: 768px) {
+              .newsletter-img-desktop {
+                display: block !important;
+              }
+            }
+          `}</style>
+          
+          {/* Click outside to close */}
+          <div 
+            style={{ position: "absolute", top: 0, left: 0, right: 0, bottom: 0 }}
+            onClick={handleClose}
+          ></div>
+
+          <div style={{
+            position: "relative",
+            backgroundColor: "#fff",
+            borderRadius: "8px",
+            width: "100%",
+            maxWidth: "750px",
+            boxShadow: "0 10px 40px rgba(0,0,0,0.25)",
+            display: "flex",
+            overflow: "hidden",
+            animation: "popupFadeIn 0.4s ease-out",
+            zIndex: 10
+          }}>
+            {/* Close button inside modal card */}
+            <button 
+              onClick={handleClose}
+              style={{
+                position: "absolute",
+                top: "15px",
+                right: "15px",
+                background: "rgba(255,255,255,0.8)",
+                border: "none",
+                fontSize: "24px",
+                cursor: "pointer",
+                color: "#111",
+                width: "32px",
+                height: "32px",
+                borderRadius: "50%",
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                zIndex: 10,
+                boxShadow: "0 2px 5px rgba(0,0,0,0.1)",
+                transition: "all 0.2s"
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = "#cb8161"; e.currentTarget.style.color = "#fff"; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = "rgba(255,255,255,0.8)"; e.currentTarget.style.color = "#111"; }}
+            >
+              &times;
+            </button>
+
+            {/* Left side Image - using public newsletter image */}
+            <div 
+              className="newsletter-img-desktop"
+              style={{
+                flex: "1",
+                backgroundImage: "url('/media/banner/newsletter-popup.jpg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                minHeight: "380px",
+                display: "none"
+              }}
+            ></div>
+
+            {/* Right side Content */}
+            <div style={{
+              flex: "1.2",
+              padding: "45px 35px",
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              background: "#fff"
+            }}>
+              {!couponCode ? (
+                <>
+                  <h4 style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "12px",
+                    letterSpacing: "2px",
+                    textTransform: "uppercase",
+                    color: "#cb8161",
+                    margin: "0 0 10px 0",
+                    fontWeight: 700
+                  }}>
+                    Special Offer
+                  </h4>
+                  <h3 style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "32px",
+                    lineHeight: "1.2",
+                    margin: "0 0 15px 0",
+                    fontWeight: 600,
+                    color: "#111"
+                  }}>
+                    Get 20% Off Your Purchase
+                  </h3>
+                  <p style={{
+                    fontSize: "14px",
+                    color: "#666",
+                    lineHeight: "1.6",
+                    margin: "0 0 25px 0"
+                  }}>
+                    Subscribe to the MoJuri mailing list to receive exclusive coupons, new collections launch updates, and get <strong>20% off</strong> your next order.
+                  </p>
+
+                  <form onSubmit={handleSubscribe}>
+                    <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
+                      <input 
+                        type="email" 
+                        required
+                        placeholder="Your email address..."
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        style={{
+                          padding: "12px 15px",
+                          border: "1px solid #ddd",
+                          borderRadius: "4px",
+                          fontSize: "14px",
+                          outline: "none"
+                        }}
+                      />
+                      <button 
+                        type="submit"
+                        style={{
+                          background: "#111",
+                          color: "#fff",
+                          border: "none",
+                          padding: "12px 20px",
+                          textTransform: "uppercase",
+                          fontWeight: "bold",
+                          fontSize: "13px",
+                          borderRadius: "4px",
+                          cursor: "pointer",
+                          letterSpacing: "1px",
+                          transition: "background 0.2s"
+                        }}
+                        onMouseEnter={(e) => { e.currentTarget.style.background = "#cb8161"; }}
+                        onMouseLeave={(e) => { e.currentTarget.style.background = "#111"; }}
+                      >
+                        Subscribe & Get Discount
+                      </button>
+                    </div>
+                  </form>
+                </>
+              ) : (
+                <div style={{ textAlign: "center" }}>
+                  <div style={{ fontSize: "50px", color: "#cb8161", marginBottom: "15px" }}>🎁</div>
+                  <h3 style={{
+                    fontFamily: "Cormorant Garamond, serif",
+                    fontSize: "28px",
+                    lineHeight: "1.2",
+                    margin: "0 0 10px 0",
+                    fontWeight: 600,
+                    color: "#111"
+                  }}>
+                    Thank You for Subscribing!
+                  </h3>
+                  <p style={{
+                    fontSize: "14px",
+                    color: "#666",
+                    lineHeight: "1.6",
+                    margin: "0 0 20px 0"
+                  }}>
+                    Use the coupon code below at checkout to receive <strong>20% discount</strong> on your order total:
+                  </p>
+
+                  <div style={{
+                    background: "#fdf3ec",
+                    border: "2px dashed #cb8161",
+                    padding: "12px",
+                    borderRadius: "6px",
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    letterSpacing: "2px",
+                    color: "#cb8161",
+                    fontFamily: "monospace",
+                    marginBottom: "15px"
+                  }}>
+                    {couponCode}
+                  </div>
+
+                  <button 
+                    onClick={handleCopyCoupon}
+                    style={{
+                      background: copySuccess ? "#50cd89" : "#111",
+                      color: "#fff",
+                      border: "none",
+                      padding: "12px 20px",
+                      borderRadius: "4px",
+                      cursor: "pointer",
+                      fontSize: "12px",
+                      textTransform: "uppercase",
+                      fontWeight: "bold",
+                      width: "100%",
+                      marginBottom: "15px",
+                      transition: "background 0.2s"
+                    }}
+                  >
+                    {copySuccess ? "Copied Successfully!" : "Copy Code"}
+                  </button>
+
+                  <button 
+                    onClick={handleClose}
+                    style={{
+                      background: "none",
+                      border: "none",
+                      color: "#666",
+                      cursor: "pointer",
+                      fontSize: "13px",
+                      textDecoration: "underline"
+                    }}
+                  >
+                    Start Shopping
+                  </button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       )}

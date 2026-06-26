@@ -6,6 +6,11 @@ export interface CartItem {
   quantity: number;
 }
 
+export interface OrderItem {
+  product: Product;
+  quantity: number;
+}
+
 export interface Order {
   id: string;
   customer: string;
@@ -14,6 +19,13 @@ export interface Order {
   payment: string;
   status: "Completed" | "Pending" | "Processing" | "Cancelled";
   total: number;
+  phone: string;
+  address: string;
+  city: string;
+  country: string;
+  postcode?: string;
+  notes?: string;
+  items: OrderItem[];
 }
 
 interface ShopContextType {
@@ -58,17 +70,129 @@ interface ShopContextType {
 
   // Order management
   orders: Order[];
-  placeOrder: (order: { customer: string; email: string; payment: string; total: number }) => void;
+  placeOrder: (order: { 
+    customer: string; 
+    email: string; 
+    payment: string; 
+    total: number;
+    phone: string;
+    address: string;
+    city: string;
+    country: string;
+    postcode?: string;
+    notes?: string;
+    items: OrderItem[];
+  }) => void;
   updateOrderStatus: (id: string, status: Order['status']) => void;
+  deleteOrder: (id: string) => void;
 }
 
 const INITIAL_ORDERS: Order[] = [
-  { id: "ORD-8594", customer: "John Doe", email: "john@example.com", date: "June 25, 2026", payment: "Paid via Credit Card", status: "Completed", total: 100.00 },
-  { id: "ORD-8593", customer: "Jane Smith", email: "jane@example.com", date: "June 24, 2026", payment: "Unpaid (Bank Transfer)", status: "Pending", total: 200.00 },
-  { id: "ORD-8592", customer: "Michael Brown", email: "michael@example.com", date: "June 24, 2026", payment: "Paid via PayPal", status: "Completed", total: 90.00 },
-  { id: "ORD-8591", customer: "Emily Davis", email: "emily@example.com", date: "June 23, 2026", payment: "Refunded", status: "Cancelled", total: 180.00 },
-  { id: "ORD-8590", customer: "William Wilson", email: "william@example.com", date: "June 22, 2026", payment: "Paid via Stripe", status: "Completed", total: 300.00 },
-  { id: "ORD-8589", customer: "Sarah Jenkins", email: "sarah@example.com", date: "June 20, 2026", payment: "Processing", status: "Processing", total: 120.00 }
+  { 
+    id: "ORD-8594", 
+    customer: "John Doe", 
+    email: "john@example.com", 
+    date: "June 25, 2026", 
+    payment: "Paid via Credit Card", 
+    status: "Completed", 
+    total: 100.00,
+    phone: "+1 234-567-890",
+    address: "123 Main Street",
+    city: "New York",
+    country: "US",
+    postcode: "10001",
+    notes: "Leave at front door",
+    items: [
+      { product: PRODUCTS[0], quantity: 1 }
+    ]
+  },
+  { 
+    id: "ORD-8593", 
+    customer: "Jane Smith", 
+    email: "jane@example.com", 
+    date: "June 24, 2026", 
+    payment: "Unpaid (Bank Transfer)", 
+    status: "Pending", 
+    total: 200.00,
+    phone: "+1 987-654-321",
+    address: "456 Oak Avenue",
+    city: "Los Angeles",
+    country: "US",
+    postcode: "90001",
+    items: [
+      { product: PRODUCTS[1], quantity: 1 }
+    ]
+  },
+  { 
+    id: "ORD-8592", 
+    customer: "Michael Brown", 
+    email: "michael@example.com", 
+    date: "June 24, 2026", 
+    payment: "Paid via PayPal", 
+    status: "Completed", 
+    total: 90.00,
+    phone: "+44 20-7946-0958",
+    address: "789 Pine Lane",
+    city: "London",
+    country: "UK",
+    postcode: "EC1A 1BB",
+    items: [
+      { product: PRODUCTS[2], quantity: 1 }
+    ]
+  },
+  { 
+    id: "ORD-8591", 
+    customer: "Emily Davis", 
+    email: "emily@example.com", 
+    date: "June 23, 2026", 
+    payment: "Refunded", 
+    status: "Cancelled", 
+    total: 180.00,
+    phone: "+61 2-9876-5432",
+    address: "321 Eucalyptus Dr",
+    city: "Sydney",
+    country: "CA",
+    postcode: "2000",
+    items: [
+      { product: PRODUCTS[0], quantity: 1 },
+      { product: PRODUCTS[2], quantity: 1 }
+    ]
+  },
+  { 
+    id: "ORD-8590", 
+    customer: "William Wilson", 
+    email: "william@example.com", 
+    date: "June 22, 2026", 
+    payment: "Paid via Stripe", 
+    status: "Completed", 
+    total: 300.00,
+    phone: "+1 555-0199",
+    address: "654 Maple Blvd",
+    city: "Toronto",
+    country: "CA",
+    postcode: "M5V 2T6",
+    items: [
+      { product: PRODUCTS[1], quantity: 1 },
+      { product: PRODUCTS[2], quantity: 1 }
+    ]
+  },
+  { 
+    id: "ORD-8589", 
+    customer: "Sarah Jenkins", 
+    email: "sarah@example.com", 
+    date: "June 20, 2026", 
+    payment: "Processing", 
+    status: "Processing", 
+    total: 120.00,
+    phone: "+33 1-2345-6789",
+    address: "987 Rue de la Paix",
+    city: "Paris",
+    country: "FR",
+    postcode: "75001",
+    items: [
+      { product: PRODUCTS[0], quantity: 1 }
+    ]
+  }
 ];
 
 const ShopContext = createContext<ShopContextType | undefined>(undefined);
@@ -231,7 +355,19 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
     .filter((item): item is Product => item !== undefined);
 
   // Order actions
-  const placeOrder = (orderData: { customer: string; email: string; payment: string; total: number }) => {
+  const placeOrder = (orderData: { 
+    customer: string; 
+    email: string; 
+    payment: string; 
+    total: number;
+    phone: string;
+    address: string;
+    city: string;
+    country: string;
+    postcode?: string;
+    notes?: string;
+    items: OrderItem[];
+  }) => {
     const newOrder: Order = {
       id: `ORD-${Math.floor(1000 + Math.random() * 9000)}`,
       customer: orderData.customer,
@@ -239,13 +375,24 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
       date: new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
       payment: orderData.payment,
       status: "Pending",
-      total: orderData.total
+      total: orderData.total,
+      phone: orderData.phone,
+      address: orderData.address,
+      city: orderData.city,
+      country: orderData.country,
+      postcode: orderData.postcode,
+      notes: orderData.notes,
+      items: orderData.items
     };
     setOrders(prev => [newOrder, ...prev]);
   };
 
   const updateOrderStatus = (id: string, newStatus: Order['status']) => {
     setOrders(prev => prev.map(o => o.id === id ? { ...o, status: newStatus } : o));
+  };
+
+  const deleteOrder = (id: string) => {
+    setOrders(prev => prev.filter(o => o.id !== id));
   };
 
   return (
@@ -270,6 +417,7 @@ export const ShopProvider: React.FC<{ children: React.ReactNode }> = ({ children
         orders,
         placeOrder,
         updateOrderStatus,
+        deleteOrder,
         isCartOpen,
         setIsCartOpen,
         isSearchOpen,

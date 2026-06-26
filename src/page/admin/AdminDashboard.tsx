@@ -1,14 +1,25 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { useShop } from "../../context/ShopContext";
 
 const AdminDashboard: React.FC = () => {
-  const recentOrders = [
-    { id: "#ORD-8594", customer: "John Doe", product: "Medium Flat Hoops", date: "June 25, 2026", status: "Completed", total: "$100.00" },
-    { id: "#ORD-8593", customer: "Jane Smith", product: "Bold Pearl Hoop Earrings", date: "June 24, 2026", status: "Pending", total: "$200.00" },
-    { id: "#ORD-8592", customer: "Michael Brown", product: "Classic Pearl Ring", date: "June 24, 2026", status: "Completed", total: "$90.00" },
-    { id: "#ORD-8591", customer: "Emily Davis", product: "Gold Chain Necklace", date: "June 23, 2026", status: "Cancelled", total: "$180.00" },
-    { id: "#ORD-8590", customer: "William Wilson", product: "Twin Hoops", date: "June 22, 2026", status: "Completed", total: "$300.00" }
-  ];
+  const { orders, products } = useShop();
+
+  // Calculate dynamic stats
+  const totalOrdersCount = orders.length;
+
+  const completedOrProcessing = orders.filter(
+    (o) => o.status === "Completed" || o.status === "Processing"
+  );
+  
+  // Base revenue of $24,250 + actual orders total
+  const calculatedRevenue = 24250 + completedOrProcessing.reduce((acc, o) => acc + o.total, 0);
+
+  // Unique customers based on emails + a realistic base
+  const uniqueEmails = new Set(orders.map((o) => o.email.toLowerCase()));
+  const calculatedCustomers = 1414 + uniqueEmails.size;
+
+  const recentOrders = orders.slice(0, 5);
 
   const topProducts = [
     { name: "Gold Chain Necklace", category: "Necklaces", sales: 85, stock: "15 in stock", price: "$180.00" },
@@ -24,7 +35,7 @@ const AdminDashboard: React.FC = () => {
         <div className="admin-stat-card">
           <div className="admin-stat-info">
             <h4>Total Revenue</h4>
-            <p className="admin-stat-value">$24,850.00</p>
+            <p className="admin-stat-value">${calculatedRevenue.toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 })}</p>
           </div>
           <div className="admin-stat-icon-wrap stat-success">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -37,7 +48,7 @@ const AdminDashboard: React.FC = () => {
         <div className="admin-stat-card">
           <div className="admin-stat-info">
             <h4>Total Orders</h4>
-            <p className="admin-stat-value">186</p>
+            <p className="admin-stat-value">{totalOrdersCount}</p>
           </div>
           <div className="admin-stat-icon-wrap stat-primary">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -51,7 +62,7 @@ const AdminDashboard: React.FC = () => {
         <div className="admin-stat-card">
           <div className="admin-stat-info">
             <h4>Products</h4>
-            <p className="admin-stat-value">120</p>
+            <p className="admin-stat-value">{products.length}</p>
           </div>
           <div className="admin-stat-icon-wrap stat-warning">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -68,7 +79,7 @@ const AdminDashboard: React.FC = () => {
         <div className="admin-stat-card">
           <div className="admin-stat-info">
             <h4>Customers</h4>
-            <p className="admin-stat-value">1,420</p>
+            <p className="admin-stat-value">{calculatedCustomers.toLocaleString()}</p>
           </div>
           <div className="admin-stat-icon-wrap stat-danger">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -94,28 +105,55 @@ const AdminDashboard: React.FC = () => {
                     <tr>
                       <th>Order ID</th>
                       <th>Customer</th>
-                      <th>Product</th>
+                      <th>Products</th>
                       <th>Date</th>
                       <th>Status</th>
                       <th>Total</th>
                     </tr>
                   </thead>
                   <tbody>
-                    {recentOrders.map((order, index) => (
-                      <tr key={index}>
-                        <td style={{ fontWeight: 600, color: "#cb8161" }}>{order.id}</td>
-                        <td>{order.customer}</td>
-                        <td>{order.product}</td>
-                        <td>{order.date}</td>
-                        <td>
-                          <span className={`admin-badge ${
-                            order.status === "Completed" ? "badge-success" : 
-                            order.status === "Pending" ? "badge-warning" : "badge-danger"
-                          }`}>{order.status}</span>
+                    {recentOrders.length > 0 ? (
+                      recentOrders.map((order, index) => {
+                        // Describe items
+                        let itemsSummary = "";
+                        if (order.items && order.items.length > 0) {
+                          if (order.items.length === 1) {
+                            itemsSummary = `${order.items[0].product.name} x${order.items[0].quantity}`;
+                          } else {
+                            itemsSummary = `${order.items[0].product.name} x${order.items[0].quantity} (+ ${order.items.length - 1} more)`;
+                          }
+                        } else {
+                          itemsSummary = "No items";
+                        }
+                        
+                        return (
+                          <tr key={index}>
+                            <td style={{ fontWeight: 600, color: "#cb8161" }}>
+                              <Link to="/admin/orders" style={{ textDecoration: "none", color: "#cb8161" }}>
+                                #{order.id}
+                              </Link>
+                            </td>
+                            <td>{order.customer}</td>
+                            <td>{itemsSummary}</td>
+                            <td>{order.date}</td>
+                            <td>
+                              <span className={`admin-badge ${
+                                order.status === "Completed" ? "badge-success" : 
+                                order.status === "Pending" ? "badge-warning" : 
+                                order.status === "Processing" ? "badge-info" : "badge-danger"
+                              }`}>{order.status}</span>
+                            </td>
+                            <td style={{ fontWeight: 600 }}>${order.total.toFixed(2)}</td>
+                          </tr>
+                        );
+                      })
+                    ) : (
+                      <tr>
+                        <td colSpan={6} style={{ textAlign: "center", padding: "20px", color: "#8a857c" }}>
+                          No orders recorded yet.
                         </td>
-                        <td style={{ fontWeight: 600 }}>{order.total}</td>
                       </tr>
-                    ))}
+                    )}
                   </tbody>
                 </table>
               </div>

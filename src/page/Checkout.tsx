@@ -20,9 +20,37 @@ const Checkout: React.FC = () => {
   const [paymentMethod, setPaymentMethod] = useState("cod");
   const [orderPlaced, setOrderPlaced] = useState(false);
 
+  // Coupon States
+  const [couponInput, setCouponInput] = useState("");
+  const [appliedCoupon, setAppliedCoupon] = useState<string | null>(null);
+  const [couponDiscount, setCouponDiscount] = useState(0);
+  const [couponError, setCouponError] = useState("");
+
   const cartTotal = cartItems.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
   const shippingFee = cartTotal >= 400 ? 0 : 15;
-  const grandTotal = cartTotal + shippingFee;
+  const grandTotal = Math.max(0, cartTotal - couponDiscount + shippingFee);
+
+  const handleApplyCoupon = () => {
+    const code = couponInput.trim().toUpperCase();
+    if (code === "MOJURI20") {
+      setAppliedCoupon("MOJURI20");
+      setCouponDiscount(cartTotal * 0.20);
+      setCouponError("");
+    } else if (code === "") {
+      setCouponError("Please enter a coupon code.");
+    } else {
+      setCouponError("Invalid coupon code.");
+      setAppliedCoupon(null);
+      setCouponDiscount(0);
+    }
+  };
+
+  const handleRemoveCoupon = () => {
+    setAppliedCoupon(null);
+    setCouponDiscount(0);
+    setCouponInput("");
+    setCouponError("");
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -32,13 +60,24 @@ const Checkout: React.FC = () => {
     }
 
     const customerName = `${billingInfo.firstName} ${billingInfo.lastName}`;
-    const paymentLabel = paymentMethod === "bank" ? "Direct Bank Transfer" : paymentMethod === "paypal" ? "PayPal" : "Cash on Delivery (COD)";
+    const couponLabel = appliedCoupon ? ` (Applied Coupon: ${appliedCoupon})` : "";
+    const paymentLabel = (paymentMethod === "bank" ? "Direct Bank Transfer" : paymentMethod === "paypal" ? "PayPal" : "Cash on Delivery (COD)") + couponLabel;
     
     placeOrder({
       customer: customerName,
       email: billingInfo.email,
       payment: paymentLabel,
-      total: grandTotal
+      total: grandTotal,
+      phone: billingInfo.phone,
+      address: billingInfo.address,
+      city: billingInfo.city,
+      country: billingInfo.country,
+      postcode: billingInfo.postcode,
+      notes: billingInfo.notes,
+      items: cartItems.map(item => ({
+        product: item.product,
+        quantity: item.quantity
+      }))
     });
 
     setOrderPlaced(true);
@@ -233,10 +272,50 @@ const Checkout: React.FC = () => {
                         </tbody>
                       </table>
 
+                      {/* Coupon input form block */}
+                      <div style={{ padding: "15px 0", borderBottom: "1px solid #eee", marginBottom: "15px" }}>
+                        <div style={{ display: "flex", gap: "10px" }}>
+                          <input 
+                            type="text" 
+                            placeholder="Coupon code (e.g. MOJURI20)" 
+                            value={couponInput}
+                            onChange={(e) => setCouponInput(e.target.value)}
+                            style={{ flex: 1, padding: "8px 10px", border: "1px solid #ccc", borderRadius: "4px", fontSize: "13px" }}
+                          />
+                          <button 
+                            type="button"
+                            onClick={handleApplyCoupon}
+                            style={{ background: "#111", color: "#fff", border: "none", padding: "8px 15px", borderRadius: "4px", fontSize: "12px", textTransform: "uppercase", fontWeight: "bold", cursor: "pointer", transition: "background 0.2s" }}
+                          >
+                            Apply
+                          </button>
+                        </div>
+                        {couponError && <p style={{ color: "#f1416c", fontSize: "12px", margin: "5px 0 0 0" }}>{couponError}</p>}
+                        {appliedCoupon && (
+                          <p style={{ color: "#50cd89", fontSize: "12px", margin: "5px 0 0 0", display: "flex", justifyContent: "space-between", alignItems: "center" }}>
+                            <span>Code <strong>{appliedCoupon}</strong> applied (20% Off)!</span>
+                            <button 
+                              type="button" 
+                              onClick={handleRemoveCoupon} 
+                              style={{ background: "none", border: "none", color: "#f1416c", cursor: "pointer", textDecoration: "underline", padding: 0 }}
+                            >
+                              Remove
+                            </button>
+                          </p>
+                        )}
+                      </div>
+
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
                         <span>Subtotal</span>
                         <span style={{ fontWeight: "bold" }}>${cartTotal.toFixed(2)}</span>
                       </div>
+
+                      {couponDiscount > 0 && (
+                        <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px", color: "#50cd89", fontWeight: "bold" }}>
+                          <span>Discount (20%)</span>
+                          <span>-${couponDiscount.toFixed(2)}</span>
+                        </div>
+                      )}
 
                       <div style={{ display: "flex", justifyContent: "space-between", marginBottom: "12px" }}>
                         <span>Shipping</span>
