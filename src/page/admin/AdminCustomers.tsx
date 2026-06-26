@@ -44,19 +44,6 @@ const AdminCustomers: React.FC = () => {
       });
     });
 
-    // Scan real orders from ShopContext
-    orders.forEach((order) => {
-      const emailKey = order.email.toLowerCase();
-      const existing = customerMap.get(emailKey);
-
-      const locationStr = order.city && order.country ? `${order.city}, ${order.country}` : "Unknown";
-
-      if (existing) {
-        // If we have an existing customer, we accumulate their orders and spend
-        // Only aggregate extra orders if it's not the exact initial ones that we already seeded
-        // We can just calculate total spend and order counts directly from all orders to make it fully dynamic
-      }
-    });
 
     // Let's rebuild the dynamic aggregation directly from ALL orders:
     const dynamicMap = new Map<string, {
